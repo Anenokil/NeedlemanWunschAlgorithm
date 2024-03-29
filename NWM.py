@@ -49,7 +49,7 @@ class NWMatrix(object):
                 print(format(self.__mtrx[i][j], f'{cell_width}d'), end=' ')
             print()
 
-    def find_best(self) -> (str, str):
+    def best_alignment(self) -> (str, str):
         """ return the best alignment """
         res1 = ''
         res2 = ''
