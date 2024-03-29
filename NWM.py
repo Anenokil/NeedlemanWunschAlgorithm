@@ -13,7 +13,7 @@ class NWMatrix(object):
     def weight(self) -> int:
         return self.__mtrx[self.__h - 1][self.__w - 1]
 
-    def diff(self, a: chr, b: chr) -> int:
+    def __diff(self, a: chr, b: chr) -> int:
         if a == b:
             return self.__sc_match
         else:
@@ -26,9 +26,9 @@ class NWMatrix(object):
             self.__mtrx[0][j] = self.__sc_gap * j
         for i in range(1, self.__h):
             for j in range(1, self.__w):
-                self.__mtrx[i][j] = max(self.__mtrx[i - 1][j - 1] + self.diff(self.__seq1[i - 1], self.__seq2[j - 1]),
-                                      self.__mtrx[i - 1][j] + self.__sc_gap,
-                                      self.__mtrx[i][j - 1] + self.__sc_gap)
+                self.__mtrx[i][j] = max(self.__mtrx[i - 1][j - 1] + self.__diff(self.__seq1[i - 1], self.__seq2[j - 1]),
+                                        self.__mtrx[i - 1][j] + self.__sc_gap,
+                                        self.__mtrx[i][j - 1] + self.__sc_gap)
 
     def print_matrix(self, cell_width: int):
         print(' ' * cell_width, end=' ')
@@ -51,7 +51,7 @@ class NWMatrix(object):
             this = self.__mtrx[i][j]
             diag = self.__mtrx[i - 1][j - 1]
             left = self.__mtrx[i][j - 1]
-            if this == diag + self.diff(self.__seq1[i - 1], self.__seq2[j - 1]):
+            if this == diag + self.__diff(self.__seq1[i - 1], self.__seq2[j - 1]):
                 res1 = self.__seq1[i - 1] + res1
                 res2 = self.__seq2[j - 1] + res2
                 i -= 1
