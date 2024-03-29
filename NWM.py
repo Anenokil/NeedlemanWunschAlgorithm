@@ -1,10 +1,10 @@
 
 class NWMatrix(object):
-    def __init__(self, str1: str, str2: str, match=1, mismatch=-1, gap=-1):
-        self.__str1 = str1
-        self.__str2 = str2
-        self.__h = len(str1) + 1
-        self.__w = len(str2) + 1
+    def __init__(self, seq1: str, seq2: str, match=1, mismatch=-1, gap=-1):
+        self.__seq1 = seq1
+        self.__seq2 = seq2
+        self.__h = len(seq1) + 1
+        self.__w = len(seq2) + 1
         self.__mtrx = [[0 for _ in range(self.__w)] for _ in range(self.__h)]
         self.__sc_match = match
         self.__sc_mismatch = mismatch
@@ -26,18 +26,18 @@ class NWMatrix(object):
             self.__mtrx[0][j] = self.__sc_gap * j
         for i in range(1, self.__h):
             for j in range(1, self.__w):
-                self.__mtrx[i][j] = max(self.__mtrx[i - 1][j - 1] + self.diff(self.__str1[i - 1], self.__str2[j - 1]),
+                self.__mtrx[i][j] = max(self.__mtrx[i - 1][j - 1] + self.diff(self.__seq1[i - 1], self.__seq2[j - 1]),
                                       self.__mtrx[i - 1][j] + self.__sc_gap,
                                       self.__mtrx[i][j - 1] + self.__sc_gap)
 
     def print_matrix(self, cell_width: int):
         print(' ' * cell_width, end=' ')
         for j in range(self.__w):
-            print(' ' * (cell_width - 1), (' ' + self.__str2)[j], end=' ', sep='')
+            print(' ' * (cell_width - 1), (' ' + self.__seq2)[j], end=' ', sep='')
         print()
 
         for i in range(self.__h):
-            print(' ' * (cell_width - 1), (' ' + self.__str1)[i], end=' ', sep='')
+            print(' ' * (cell_width - 1), (' ' + self.__seq1)[i], end=' ', sep='')
             for j in range(self.__w):
                 print(format(self.__mtrx[i][j], f'{cell_width}d'), end=' ')
             print()
@@ -51,17 +51,17 @@ class NWMatrix(object):
             this = self.__mtrx[i][j]
             diag = self.__mtrx[i - 1][j - 1]
             left = self.__mtrx[i][j - 1]
-            if this == diag + self.diff(self.__str1[i - 1], self.__str2[j - 1]):
-                res1 = self.__str1[i - 1] + res1
-                res2 = self.__str2[j - 1] + res2
+            if this == diag + self.diff(self.__seq1[i - 1], self.__seq2[j - 1]):
+                res1 = self.__seq1[i - 1] + res1
+                res2 = self.__seq2[j - 1] + res2
                 i -= 1
                 j -= 1
             elif this == left + self.__sc_gap:
                 res1 = '_' + res1
-                res2 = self.__str2[j - 1] + res2
+                res2 = self.__seq2[j - 1] + res2
                 j -= 1
             else:
-                res1 = self.__str1[i - 1] + res1
+                res1 = self.__seq1[i - 1] + res1
                 res2 = '_' + res2
                 i -= 1
         return res1, res2
