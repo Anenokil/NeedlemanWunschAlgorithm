@@ -1,25 +1,31 @@
 
 class NWMatrix(object):
     def __init__(self, seq1: str, seq2: str, match=1, mismatch=-1, gap=-1):
+        # two sequences
         self.__seq1 = seq1
         self.__seq2 = seq2
-        self.__h = len(seq1) + 1
-        self.__w = len(seq2) + 1
-        self.__mtrx = [[0 for _ in range(self.__w)] for _ in range(self.__h)]
+        # score matrix and its size
+        self.__h = len(seq1) + 1  # score matrix height
+        self.__w = len(seq2) + 1  # score matrix width
+        self.__mtrx = [[0 for _ in range(self.__w)] for _ in range(self.__h)]  # score matrix
+        # score for match, mismatch and gap
         self.__sc_match = match
         self.__sc_mismatch = mismatch
         self.__sc_gap = gap
 
     def score(self) -> int:
+        """ return score of the best alignment """
         return self.__mtrx[self.__h - 1][self.__w - 1]
 
     def __diff(self, a: chr, b: chr) -> int:
+        """ return pairs score """
         if a == b:
             return self.__sc_match
         else:
             return self.__sc_mismatch
 
     def construct_matrix(self):
+        """ construct score matrix """
         for i in range(self.__h):
             self.__mtrx[i][0] = self.__sc_gap * i
         for j in range(self.__w):
@@ -31,6 +37,7 @@ class NWMatrix(object):
                                         self.__mtrx[i][j - 1] + self.__sc_gap)
 
     def print_matrix(self, cell_width: int):
+        """ print score matrix """
         print(' ' * cell_width, end=' ')
         for j in range(self.__w):
             print(' ' * (cell_width - 1), (' ' + self.__seq2)[j], end=' ', sep='')
@@ -43,6 +50,7 @@ class NWMatrix(object):
             print()
 
     def find_best(self) -> (str, str):
+        """ return the best alignment """
         res1 = ''
         res2 = ''
         i = self.__h - 1
