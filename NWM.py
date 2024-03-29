@@ -1,5 +1,5 @@
 
-class NWMatrix(object):
+class ScoreMatrix(object):
     def __init__(self, seq1: str, seq2: str, match=1, mismatch=-1, gap=-1):
         # two sequences
         self.__seq1 = seq1
