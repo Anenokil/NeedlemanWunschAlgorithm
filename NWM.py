@@ -1,6 +1,10 @@
 
 class ScoreMatrix(object):
     def __init__(self, seq1: str, seq2: str, match=1, mismatch=-1, gap=-1):
+        # score for match, mismatch and gap
+        self.__sc_match = match
+        self.__sc_mismatch = mismatch
+        self.__sc_gap = gap
         # two sequences
         self.__seq1 = seq1
         self.__seq2 = seq2
@@ -8,10 +12,8 @@ class ScoreMatrix(object):
         self.__h = len(seq1) + 1  # score matrix height
         self.__w = len(seq2) + 1  # score matrix width
         self.__mtrx = [[0 for _ in range(self.__w)] for _ in range(self.__h)]  # score matrix
-        # score for match, mismatch and gap
-        self.__sc_match = match
-        self.__sc_mismatch = mismatch
-        self.__sc_gap = gap
+        # construct score matrix
+        self.__construct_matrix()
 
     def score(self) -> int:
         """ return score of the best alignment """
@@ -24,7 +26,7 @@ class ScoreMatrix(object):
         else:
             return self.__sc_mismatch
 
-    def construct_matrix(self):
+    def __construct_matrix(self):
         """ construct score matrix """
         for i in range(self.__h):
             self.__mtrx[i][0] = self.__sc_gap * i
