@@ -10,7 +10,7 @@ class NWMatrix(object):
         self.__sc_mismatch = mismatch
         self.__sc_gap = gap
 
-    def weight(self) -> int:
+    def score(self) -> int:
         return self.__mtrx[self.__h - 1][self.__w - 1]
 
     def __diff(self, a: chr, b: chr) -> int:
